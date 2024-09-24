@@ -1,0 +1,3 @@
+Write a talk proposal that I can submit, for the following idea. 
+
+This talk will be about a technical stack that can be used to build AI Agentic Applications. It comprises of Google + Open Source technologies. It will use Gemma as the LLM, GenKit as the framework, Angular as a Frontend, and Firestore as the database and vector store. It will run locally on the laptop and helps build out and prototype an application easily. When ready to graduate, this stack can be deployed on Firebase or Cloudrun and we can leverage the Gemini API. The talk introduced this stack to the developers and walks them step by step through how to use it. 
