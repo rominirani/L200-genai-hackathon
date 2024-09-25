@@ -1,20 +1,12 @@
-{
-    "domains": [
-        {
-            "domain_id": "1",
-            "domain_name": "cfp",
-            "domain_description": "help create super CFP's",
-            "domain_model_id_writer": "gemini_model_1",
-            "domain_model_id_reviewer": "gemini_model_3",
-            "domain_prompts_config_file": "config/cfp_prompts.json"
-        },
-        {
-            "domain_id": "2",
-            "domain_name": "hackathon",
-            "domain_description": "help create super hackathon ideas",
-            "domain_model_id_writer": "gemini_model_1",
-            "domain_model_id_reviewer": "gemini_model_3",
-            "domain_prompts_config_file": "config/hackathon_prompts.json"
-        }
-    ]
-}
+[
+    {
+        "name": "cfp",
+        "description": "Create a proposal for a CFP to a technical event",
+        "config_file": "config_cfp.json"
+    },
+    {
+        "name": "hackathon",
+        "description": "Create an idea for the specified Hackathon",
+        "config_file": "config_hackathon.json"
+    }
+]
