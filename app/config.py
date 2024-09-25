@@ -28,7 +28,6 @@ class ConfigReader:
 
     def _read_file(self, file_name):
         """Reads given json config file and returns json object."""
-        
         file_path = os.path.join(self.config_dir, file_name)
         logger.info(f'Reading configuration file: {file_path}')
 
@@ -41,6 +40,7 @@ class ConfigReader:
         return file_json
 
     def _read_config(self):
+        """Returns the entire configuration data."""
         config_data = {}
         for key, file_name in self.config_files.items():
             config_data[key] = self._read_file(file_name)
@@ -80,6 +80,16 @@ class ConfigReader:
 
     def get_config_for_domain(self, domain):
         """Returns the config for the given domain."""
-        domain_config = self._read_file(self.get_domain(domain)['config_file'])
+        config_data = self._read_file(self.get_domain(domain)['config_file'])
+        prompts = config_data['prompts']
+
+        # inverse the config so that it is addressable by writer and reviewer
+        domain_config = {'writer': {}, 'reviewer': {}}
+        domain_config['writer']['prompts'] = prompts.get('writer', {})
+        domain_config['reviewer']['prompts'] = prompts.get('reviewer', {})
+        domain_config['writer']['model_id'] = config_data['models']['writer']
+        domain_config['reviewer']['model_id'] = config_data['models']['reviewer']
+        domain_config['iterations'] = config_data.get('iterations', 5)
+
         return domain_config
-    
+
