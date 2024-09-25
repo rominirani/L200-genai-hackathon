@@ -2,6 +2,7 @@
     {
         "id": "gemini-15-pro-plain",
         "model_name": "gemini-1.5-pro",
+        "model_class": "gemini_api",
         "description": "gemini-1.5-pro with text response",
         "generation_config": {
             "temperature": 1,
@@ -14,6 +15,7 @@
     {
         "id": "gemini-15-flash-plain",
         "model_name": "gemini-1.5-flash",
+        "model_class": "gemini_api",
         "description": "gemini-1.5-flash with text response",
         "generation_config": {
             "temperature": 1,
@@ -26,6 +28,7 @@
     {
         "id": "gemini-15-flash-json",
         "model_name": "gemini-1.5-flash",
+        "model_class": "gemini_api",
         "description": "gemini-1.5-flash with json response",
         "generation_config": {
             "temperature": 1,
