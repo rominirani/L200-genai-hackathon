@@ -5,7 +5,7 @@ import google.generativeai as genai
 
 #Current code works with Gemini AI API and requires the key.
 #Later on will look to incorporate other models from Vertex and / or Model Garden
-genai.configure(api_key="YOUR_GEMINI_AI_KEY")
+genai.configure(api_key="YOUR_GEMINI_API_KEY")
 
 def get_domain_models_map(config_file):
   """
@@ -99,8 +99,11 @@ def run_model_iteration(input_text, domain_model,  num_iterations=3):
     writer_model = create_model(domain_model, "writer")
     reviewer_model = create_model(domain_model, "reviewer")
 
-    chat_history = []
-    chat = writer_model.start_chat(history=chat_history)
+    chat_history_writer = []
+    chat_writer = writer_model.start_chat(history=chat_history_writer)
+
+    chat_history_reviewer = []
+    chat_reviewer = reviewer_model.start_chat(history=chat_history_reviewer)
 
     for iteration in range(1, num_iterations + 1):
         print(f"\nIteration: {iteration}/{num_iterations}")
@@ -111,8 +114,9 @@ def run_model_iteration(input_text, domain_model,  num_iterations=3):
             input_text = domain_prompts["writer"]["initial_prompt"].replace("{data}", input_text) 
         else:
             input_text = domain_prompts["writer"]["iterative_prompt"].replace("{data}", input_text) 
-        response = chat.send_message(input_text)
-        chat_history.extend([
+        response = chat_writer.send_message(input_text)
+        print(f"Token Details: {response.usage_metadata}")
+        chat_history_writer.extend([
             {"role": "user", "content": input_text},
             {"role": "model", "content": response.text}
         ])
@@ -124,9 +128,11 @@ def run_model_iteration(input_text, domain_model,  num_iterations=3):
             input_text = domain_prompts["reviewer"]["initial_prompt"].replace("{data}", response.text)
         else:
             input_text = domain_prompts["reviewer"]["iterative_prompt"].replace("{data}", response.text)
-        response = reviewer_model.generate_content(response.text)
+        #response = reviewer_model.generate_content(response.text)
+        response = chat_reviewer.send_message(input_text)
+        print(f"Token Details: {response.usage_metadata}")
         print(f"Model Reviewer Feedback:\n{response.text}")
-        modelReviewerRecommendation = json.loads(response.text)["recommendation"]
+        modelReviewerRecommendation = json.loads(response.text)["suggestions"]
         if modelReviewerRecommendation == "Accept":
             break;
 
@@ -138,7 +144,7 @@ def run_model_iteration(input_text, domain_model,  num_iterations=3):
         # Update input for next iteration
         input_text = response.text
 
-    return chat_history[-1]['content']  # Return the last model output
+    return chat_history_writer[-1]['content']  # Return the last model output
 
 
 
