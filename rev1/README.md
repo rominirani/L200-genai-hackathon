@@ -26,7 +26,7 @@ The process is iterative: the reviewer's feedback becomes the input for the next
 2. Run the application as follows:
 ```bash 
 $ python main.py -h
-usage: Run Self Refine Iterator [-h] -o OUTFILE -i INFILE --domain {hackathon_idea_refine,cfp_submission_refine}
+usage: Run Self Refine Iterator [-h] -o OUTFILE -i INFILE --domain {hackathon,cfp}
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -34,8 +34,8 @@ optional arguments:
                         Output file
   -i INFILE, --infile INFILE
                         Input file
-  --domain {hackathon_idea_refine,cfp_submission_refine}
+  --domain {hackathon,cfp}
                         Which domain to run? 
-                        (hackathon_idea_refine or cfp_submission_refine)
+                        (hackathon or cfp)
 
    ```
