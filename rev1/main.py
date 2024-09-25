@@ -1,11 +1,14 @@
 import argparse
 import json
 
-import google.generativeai as genai
+import dotenv
+import os
+dotenv.load_dotenv()
 
 #Current code works with Gemini AI API and requires the key.
 #Later on will look to incorporate other models from Vertex and / or Model Garden
-genai.configure(api_key="YOUR_GEMINI_API_KEY")
+import google.generativeai as genai
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 def get_domain_models_map(config_file):
   """
