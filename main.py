@@ -137,8 +137,8 @@ def run_model_iteration(input_text, domain_model,  num_iterations=3):
         response = chat_reviewer.send_message(input_text)
         print(f"Token Details: {response.usage_metadata}")
         print(f"Model Reviewer Feedback:\n{response.text}")
-        modelReviewerRecommendation = json.loads(response.text)["suggestions"]
-        if modelReviewerRecommendation == "Accept":
+        modelReviewerRecommendation = json.loads(response.text)["recommendation"]
+        if modelReviewerRecommendation == "Approve":
             break;
 
         # Early Exit if "Looks Good"
