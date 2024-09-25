@@ -16,10 +16,10 @@ class GeminiAPI(BaseModel):
                  model_name: str = "gemini-1.5-flash",
                  generation_config: object = {},
                  system_instruction: str = None):
+        """Initialize the model with the given config"""
 
         logger.info(f"Initializing model {model_name}")
-        
-        """Initialize the model with the given config"""
+       
         genai.configure(api_key=os.getenv("API_KEY"))
 
         self.model = genai.GenerativeModel(
