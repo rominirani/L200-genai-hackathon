@@ -1,5 +1,6 @@
 import argparse
 import json
+from pyexpat import model
 
 import dotenv
 import os
@@ -10,7 +11,7 @@ dotenv.load_dotenv()
 import google.generativeai as genai
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-def get_domain_models_map(config_file):
+def get_domain_models_map(domain_configfile, model_configfile):
   """
   Reads a JSON configuration file and returns a dictionary mapping domain names to 
   their respective writer and reviewer model names.
@@ -24,14 +25,15 @@ def get_domain_models_map(config_file):
   """
 
   try:
-      with open(config_file, 'r') as f:
-        config = json.load(f)
+      with open(domain_configfile, 'r') as d, open(model_configfile, 'r') as m:
+        domain_config = json.load(d)
+        model_config = json.load(m)
   except FileNotFoundError:
-      print(f"Error: Input file not found: {config_file}")
+      print(f"Error: Input file not found: {domain_configfile}")
       exit(1)
 
-  domains = config['domains']
-  models = {model['model_id']: model for model in config['models']} 
+  domains = domain_config['domains']
+  models = {model['model_id']: model for model in model_config['models']} 
   domain_models_map = {}
 
   for domain in domains:
@@ -172,8 +174,7 @@ if __name__ == "__main__":
         exit(1)
 
     # Read the main configuration file
-    config_file = 'domains_config.json'
-    domain_models = get_domain_models_map(config_file)
+    domain_models = get_domain_models_map('config/domains.json', 'config/models.json')
     print("App configuration file read successfully.")
 
 
