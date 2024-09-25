@@ -5,7 +5,7 @@ import google.generativeai as genai
 
 #Current code works with Gemini AI API and requires the key.
 #Later on will look to incorporate other models from Vertex and / or Model Garden
-genai.configure(api_key="AIzaSyAB5tsEnGIEulur6uvCvgViIo_PF1jd-wU")
+genai.configure(api_key="YOUR_GEMINI_AI_KEY")
 
 def get_domain_models_map(config_file):
   """
