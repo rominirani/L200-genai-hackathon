@@ -1,11 +1,10 @@
 # generates completions from the Gemini 1.5 Flash model
 
-from models.base_model import BaseModel
+from models import BaseModel
 import google.generativeai as genai
 import os
 import dotenv
 import logging
-import json
 
 dotenv.load_dotenv()
 logger = logging.getLogger(__name__)
@@ -14,8 +13,9 @@ class GeminiAPI(BaseModel):
     """Instantiates the Gemini model"""
 
     def __init__(self, 
-                 model_config: object,
-                 model_name: str = "gemini-1.5-flash"):
+                 model_name: str = "gemini-1.5-flash",
+                 generation_config: object = {},
+                 system_instruction: str = None):
 
         logger.info(f"Initializing model {model_name}")
         
@@ -24,8 +24,8 @@ class GeminiAPI(BaseModel):
 
         self.model = genai.GenerativeModel(
             model_name=model_name,
-            generation_config=model_config.get('generation_config', {}),
-            system_instruction=model_config.get('system_prompt', None)
+            generation_config=generation_config,
+            system_instruction=system_instruction
         )
 
         # start chat interface on model
