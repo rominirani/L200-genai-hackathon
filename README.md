@@ -27,7 +27,10 @@ The process is iterative: the reviewer's feedback becomes the input for the next
    1. Create a new virtual environment. Eg: `python3 -m venv env`
    2. Activate the virtual environment. Eg: `source env/bin/activate`
    3. Install the required packages: `pip install -r requirements.txt`
-3. Run the application as follows:
+3. Create a .env file and add your GEMINI api key as follows
+   1. `GEMINI_API_KEY=your-api-key`
+   2. Get your API key from [here](https://aistudio.google.com/app/apikey)
+4. Run the application as follows:
 
 ```bash 
 $ python main.py -h
