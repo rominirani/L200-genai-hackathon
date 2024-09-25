@@ -22,8 +22,13 @@ The process is iterative: the reviewer's feedback becomes the input for the next
 
 ## Installation
 
-1. Clone the Repository
-2. Run the application as follows:
+1. Clone the Repository. Eg: `git clone https://github.com/your-repo/your-repo.git`
+2. Prepare a virtual environment:
+   1. Create a new virtual environment. Eg: `python3 -m venv env`
+   2. Activate the virtual environment. Eg: `source env/bin/activate`
+   3. Install the required packages: `pip install -r requirements.txt`
+3. Run the application as follows:
+
 ```bash 
 $ python main.py -h
 usage: Run Self Refine Iterator [-h] -o OUTFILE -i INFILE --domain {hackathon,cfp}
@@ -37,5 +42,4 @@ optional arguments:
   --domain {hackathon,cfp}
                         Which domain to run? 
                         (hackathon or cfp)
-
-   ```
+```
