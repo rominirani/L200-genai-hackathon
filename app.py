@@ -36,7 +36,7 @@ def update_prompt(domain):
         st.session_state.user_prompt = "Here is my hackathon idea: \n <<Write your Hackathon idea here>>"
 
 # Define the UI elements
-st.title("AI Text Generation App")
+st.title("Self Refining Idea Generator")
 
 # Domain selection
 domain = st.selectbox("Select Domain:", st.session_state.domains)
