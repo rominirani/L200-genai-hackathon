@@ -56,13 +56,13 @@ class Generator:
 
 
     def _build_model(self, 
-                     model_class: str, 
+                     model_class_name: str, 
                      model_name: str, 
                      generation_config: object, 
                      system_instruction: str):
         """create a new model object"""
         model_class = getattr(
-            importlib.import_module('models'), model_class)
+            importlib.import_module('models'), model_class_name)
         return model_class(
             model_name=model_name,
             generation_config=generation_config,
@@ -87,7 +87,7 @@ class Generator:
 
     def generate_iterative_output(self, 
                                   initial_output: str, 
-                                  num_iterations: int = 5):
+                                  num_iterations: int = None):
         """Runs the model iteratively and returns the final output."""
 
         logger.info("Iteratively refine the output")
@@ -95,11 +95,12 @@ class Generator:
             self.domain_config['reviewer']['prompts']['initial_prompt'].replace(
                 _VAR_PROMPT, initial_output)
         feedback = self.reviewer.generate_completion(feedback_prompt)
+        max_iterations = num_iterations or self.domain_config['iterations'] or 3
         self._accumulate_metadata(feedback['usage_metadata'])
-        iteration = 0
 
+        iteration = 0
         while json.loads(feedback['output'])['recommendation'].lower() == 'revise' \
-            or iteration < num_iterations:
+            or iteration < max_iterations:
             iteration += 1
             logger.info(f"Running iteration {iteration}")
 

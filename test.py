@@ -51,6 +51,7 @@ def test_full_iteration():
         It has many SDKs and supports GenKit for AI apps.
         """)
     response = cfp.generate_iterative_output(response['output'])
+    print()
     print(response)
 
 
