@@ -1,16 +1,11 @@
 import argparse
-import json
-
-import dotenv
-import os
-
 import logging
 import sys
 
 from libs import Generator
 from libs.config import ConfigReader
 
-dotenv.load_dotenv()
+# dotenv.load_dotenv()
 
 #Current code works with Gemini AI API and requires the key.
 #Later on will look to incorporate other models from Vertex and / or Model Garden

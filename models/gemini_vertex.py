@@ -1,21 +1,23 @@
-# generates completions from the Gemini 1.5 Flash model
+# generates completions from models on Vertex AI
 
+from pyexpat import model
 from models import BaseModel
-import google.generativeai as genai
 import os
 import dotenv
 import logging
 
-#JSON Schema
-from google.ai.generativelanguage_v1beta.types import content
+import vertexai
+from vertexai.generative_models import GenerativeModel
 
-dotenv.load_dotenv(override=True)
+dotenv.load_dotenv()
 logger = logging.getLogger(__name__)
 
-class GeminiAPI(BaseModel):
-    """Instantiates the Gemini model"""
+class GeminiVertex(BaseModel):
+    """Instantiates the Gemini model from Vertex AI"""
 
     def __init__(self, 
+                 project: str,
+                 location: str,
                  model_name: str = "gemini-1.5-flash",
                  generation_config: object = {},
                  system_instruction: str = None):
@@ -23,25 +25,8 @@ class GeminiAPI(BaseModel):
 
         logger.info(f"Initializing model {model_name}")
        
-        genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-
-        #Set the JSON Output format for Gemini model
-        response_schema = content.Schema(
-                            type = content.Type.OBJECT,
-                            properties = {
-                            "suggestions": content.Schema(
-                                type = content.Type.STRING,
-                            ),
-                            "recommendation": content.Schema(
-                                type = content.Type.STRING,
-                            ),
-                            },
-                        )
-        
-        #Add another attribute to generation config object
-        generation_config["response_schema"] = response_schema
-        
-        self.model = genai.GenerativeModel(
+        vertexai.init(project=project, location=location)
+        self.model = GenerativeModel(
             model_name=model_name,
             generation_config=generation_config,
             system_instruction=system_instruction
