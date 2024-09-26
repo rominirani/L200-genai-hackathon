@@ -42,10 +42,10 @@ st.title("Self Refining Idea Generator")
 domain = st.selectbox("Select Domain:", st.session_state.domains)
 
 # Writer model selection (replace with your actual model options)
-writer_model = st.selectbox("Select Writer Model:", st.session_state.models)
+#writer_model = st.selectbox("Select Writer Model:", st.session_state.models)
 
 # Reviewer model selection (replace with your actual model options)
-reviewer_model = st.selectbox("Select Reviewer Model:", st.session_state.models)
+#reviewer_model = st.selectbox("Select Reviewer Model:", st.session_state.models)
 
 st.cache_data.clear()  # Clear cache to ensure update_prompt is called
 update_prompt(domain)
