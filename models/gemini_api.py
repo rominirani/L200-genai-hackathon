@@ -6,7 +6,11 @@ import os
 import dotenv
 import logging
 
-dotenv.load_dotenv()
+#JSON Schema
+from google.ai.generativelanguage_v1beta.types import content
+
+
+dotenv.load_dotenv(override=True)
 logger = logging.getLogger(__name__)
 
 class GeminiAPI(BaseModel):
@@ -20,8 +24,24 @@ class GeminiAPI(BaseModel):
 
         logger.info(f"Initializing model {model_name}")
        
-        genai.configure(api_key=os.getenv("API_KEY"))
+        genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
+        #Set the JSON Output format for Gemini model
+        response_schema = content.Schema(
+                            type = content.Type.OBJECT,
+                            properties = {
+                            "suggestions": content.Schema(
+                                type = content.Type.STRING,
+                            ),
+                            "recommendation": content.Schema(
+                                type = content.Type.STRING,
+                            ),
+                            },
+                        )
+        
+        #Add another attribute to generation config object
+        generation_config["response_schema"] = response_schema
+        
         self.model = genai.GenerativeModel(
             model_name=model_name,
             generation_config=generation_config,

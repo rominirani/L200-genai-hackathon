@@ -1,0 +1,3 @@
+Write a hackathon idea submission for a hackathon that I plan to take a part in. 
+
+My idea is about a GenAI Application that can take a photo of any food package and then determine the nutrition, calories and other details. It will then match it to the users dietary preferences and allergies and give them more information on it. My app is an Android mobile application and will use the Gemini APIs.
