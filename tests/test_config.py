@@ -1,7 +1,6 @@
 # test_config.py
 import unittest
-import os
-from app.config import ConfigReader
+from libs import ConfigReader
 
 class TestConfigReader(unittest.TestCase):
 
@@ -28,13 +27,13 @@ class TestConfigReader(unittest.TestCase):
         """Test if get_models returns a dictionary and contains expected keys."""
         models = self.config_reader.get_models()
         self.assertIsInstance(models, dict)
-        self.assertIn('gemini-pro', models)
+        self.assertIn('gemini-15-flash-json', models)
         self.assertIn('gemini-15-pro-plain', models)
 
     def test_get_model(self):
         """Test if get_model returns the correct model configuration."""
-        gemini_pro_model = self.config_reader.get_model('gemini-pro')
-        self.assertEqual(gemini_pro_model['id'], 'gemini-pro')
+        gemini_pro_model = self.config_reader.get_model('gemini-15-pro-plain')
+        self.assertEqual(gemini_pro_model['id'], 'gemini-15-pro-plain')
 
         gemini_plain_model = self.config_reader.get_model('gemini-15-pro-plain')
         self.assertEqual(gemini_plain_model['id'], 'gemini-15-pro-plain')

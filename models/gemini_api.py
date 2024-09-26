@@ -45,7 +45,7 @@ class GeminiAPI(BaseModel):
         ])
 
         return {
-            "response": response.text,
+            "output": response.text,
             "usage_metadata": {
                 "total_tokens": response.usage_metadata.total_token_count,
                 "prompt_tokens": response.usage_metadata.prompt_token_count,
