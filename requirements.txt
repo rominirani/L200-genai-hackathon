@@ -23,6 +23,7 @@ grpcio-status==1.66.1
 httplib2==0.22.0
 idna==3.10
 numpy==2.1.1
+ollama==0.3.3
 packaging==24.1
 proto-plus==1.24.0
 protobuf==5.28.2

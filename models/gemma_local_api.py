@@ -1,0 +1,43 @@
+# generates completions from the Gemini 1.5 Flash model
+
+from models import BaseModel
+import logging
+
+import ollama
+
+logger = logging.getLogger(__name__)
+
+class GemmaLocalAPI(BaseModel):
+    """Instantiates the Gemma2 2b Model running in Ollama locally"""
+
+    def __init__(self, 
+                 model_name: str = "gemma2:2b",
+                 generation_config: object = {},
+                 system_instruction: str = None):
+        """Initialize the model with the given config"""
+
+        logger.info(f"Initializing model {model_name}")
+       
+        # start chat interface on model
+        self.chat_history_writer = []
+        self.chat_history_writer.append({"role": "system", "content": system_instruction})
+
+    # override method from BaseModel
+    def generate_completion(self, prompt: str) -> object:
+        """Override by calling actual model"""
+        logger.info("Generating completion")
+
+        self.chat_history_writer.append({"role" : "user", "content" : prompt})
+        response = ollama.chat(model='gemma2:2b',messages=self.chat_history_writer)
+        self.chat_history_writer.append(
+            {"role": "model", "content": response['message']['content']})
+
+        return {
+            "output": response['message']['content'],
+            "usage_metadata": {
+                "total_tokens": 0,
+                "prompt_tokens": 0,
+                "candidates_tokens": 0
+            }
+        }
+
