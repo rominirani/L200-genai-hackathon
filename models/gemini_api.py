@@ -23,27 +23,11 @@ class GeminiAPI(BaseModel):
         system_instruction: str = None):
         """Initialize the model with the given config"""
 
-        logger.info(f"Initializing model {model_name}")
+        logger.info(f"Initializing Gemini model {model_name}")
         if not generation_config:
             generation_config = {}
 
         genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-
-        # Set the JSON Output format for Gemini model
-        response_schema = content.Schema(
-            type=content.Type.OBJECT,
-            properties={
-                "suggestions": content.Schema(
-                    type=content.Type.STRING,
-                ),
-                "recommendation": content.Schema(
-                    type=content.Type.STRING,
-                ),
-            },
-        )
-
-        # Add another attribute to generation config object
-        generation_config["response_schema"] = response_schema
 
         self.model = genai.GenerativeModel(
             model_name=model_name,
@@ -55,12 +39,13 @@ class GeminiAPI(BaseModel):
         self.chat_history_writer = []
         self.chat_model = self.model.start_chat(history=self.chat_history_writer)
 
+
     # override method from BaseModel
     def generate_completion(self, prompt: str) -> object:
         """Override by calling actual model"""
-        logger.info("Generating completion")
-
+        logger.debug(f"Prompt: {prompt}")
         response = self.chat_model.send_message(prompt)
+        logger.debug(f"Response: {response}")
         self.chat_history_writer.extend(
             [
                 {"role": "user", "content": prompt},

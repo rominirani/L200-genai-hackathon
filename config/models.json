@@ -54,14 +54,75 @@
     {
         "id": "vertex-gemini-15-flash-json",
         "model_name": "gemini-1.5-flash-002",
-        "model_class": "GeminiVertex",
+        "model_class": "GeminiVertex",        
+        "supported_models": ["gemini-1.5-flash-002", "gemini-1.5-flash-001", 
+            "gemini-1.5-pro-002", "gemini-1.5-pro-001", 
+            "gemini-1.0-pro-002", "gemini-1.0-pro-001"],
+        "default_model": "gemini-1.5-flash-002",
         "description": "gemini-1.5-flash on vertex with json response",
         "generation_config": {
             "temperature": 1,
             "top_p": 0.95,
             "top_k": 40,
-            "max_output_tokens": 8192,
-            "response_mime_type": "application/json"
+            "max_output_tokens": 8192
         }
-    }    
+    },  
+    {
+        "id": "gemini-15-flash",
+        "model_name": "gemini-1.5-flash",
+        "model_class": "GeminiAPI",
+        "supported_models": ["gemini-1.5-flash-002", "gemini-1.5-flash-001"],
+        "default_model": "gemini-1.5-flash-002",
+        "description": "Gemini 1.5 Flash models from AI Studio",
+        "generation_config": {
+            "temperature": 1,
+            "top_p": 0.95,
+            "top_k": 40,
+            "max_output_tokens": 8192
+        }
+    },
+    {
+        "id": "gemini-15-pro",
+        "model_name": "gemini-1.5-pro",
+        "model_class": "GeminiAPI",
+        "supported_models": ["gemini-1.5-pro-002", "gemini-1.5-pro-001"],
+        "default_model": "gemini-1.5-pro-002",
+        "description": "Gemini 1.5 Pro models from AI Studio",
+        "generation_config": {
+            "temperature": 1,
+            "top_p": 0.95,
+            "top_k": 40,
+            "max_output_tokens": 8192
+        }
+    },
+    {
+        "id": "gemini-10-pro",
+        "model_name": "gemini-1.0-pro",
+        "model_class": "GeminiAPI",
+        "supported_models": ["gemini-1.0-pro-002", "gemini-1.0-pro-001"],
+        "default_model": "gemini-1.0-pro-002",
+        "description": "Gemini 1.0 Pro models from AI Studio",
+        "generation_config": {
+            "temperature": 1,
+            "top_p": 0.95,
+            "top_k": 40,
+            "max_output_tokens": 8192
+        }
+    },    
+    {
+        "id": "vertex-gemini-15",
+        "model_name": "gemini-1.5-flash-002",
+        "model_class": "GeminiVertex",        
+        "supported_models": ["gemini-1.5-flash-002", "gemini-1.5-flash-001", 
+            "gemini-1.5-pro-002", "gemini-1.5-pro-001", 
+            "gemini-1.0-pro-002", "gemini-1.0-pro-001"],
+        "default_model": "gemini-1.5-flash-002",
+        "description": "gemini-1.5-flash on vertex with json response",
+        "generation_config": {
+            "temperature": 1,
+            "top_p": 0.95,
+            "top_k": 40,
+            "max_output_tokens": 8192
+        }
+    }        
 ]

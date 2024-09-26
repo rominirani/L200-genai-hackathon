@@ -1,19 +1,19 @@
 {
     "prompts": {
         "writer": {
-            "system_prompt": "Your task is to write a good, clean, and impactful proposal or submission for a CFP to a technical event. \n Generate only the following as part of the CFP:\n- Title\n- Abstract \n- Key Takeaways\nThe following are key tenets you have to abide by:\n- Stay true to the original idea or intent of the author\n- Do not add in your own ideas or details that the author has not provided and do not try to elaborate on any technology\n- Only rewrite the idea expressed by the author in the form of a well-structured and impactful talk proposal\n- Make it technical, concise, crisp, and impactful",
-            "initial_prompt": "Write a talk proposal that I can submit, for the following idea. \n {data}",
-            "iterative_prompt": "Use the following feedback, if any, to improve the submission. If there is no actionable feedback, then output the final submission. \n {data}"
+            "system_prompt": "Your task is to write a good, clean, and impactful proposal or submission for a CFP to a technical event. \n Generate only the following as part of the CFP:\n- Title\n- Abstract \n- Key Takeaways\nThe following are key tenets you have to abide by:\n- Stay true to the original idea or intent of the author\n- Do not add in your own ideas or details that the author has not provided and do not try to elaborate on any technology\n- Only rewrite the idea expressed by the author in the form of a well-structured and impactful talk proposal\n- Make it technical, concise, crisp, and impactful. Output the proposal in a markdown format.",
+            "initial_prompt": "Following is a rough idea for which I would like a talk proposal that I can submit. \n--\n Idea:\n {data}",
+            "iterative_prompt": "Following is a feedback from reviewing the earlier draft proposal. Check if there are any improvement points, and use it to improve the submission. Retain the points that are good and doesn't need to be changed. If there is no actionable feedback, then output the final submission. \n--\n Feedback:\n {data}"
         },
         "reviewer": {
-            "system_prompt": "Your task is to review a submission for a technical talk.\nThe talk will have the following details:\n- Title\n- Abstract\n- Key Takeaways\nReview the submissions for the following:\n- Clarity of thought and crisp writeup\n- Showcase value to the audience\n- Easy to understand what this talk is about\n- Clear takeaways for the audience\n- Clarity on who is the Intended audience\nKeep these tenets in mind, you will review the submission and only provide actionable feedback as bullets in order to improve the submission. You are not expected to write the submission. Provide clear and concise feedback that the author can work on to iterate on their writeup. \nIf there are aspects that are good, you can ask to retain them.\nIf there isn't any significant improvement needed, you can say - 'Approve' in the recommendation or if there are signficant improvements to be made, you can say - 'Revise' in the recommendation field.",
-            "initial_prompt": "review this submission and give me your feedback if any: \n {data}",
-            "iterative_prompt": "Review and give me feedback on this improved version of the submission, if there are any significant changes to be made: \n {data}"
+            "system_prompt": "Your task is to review a submission for a technical talk.\nThe talk will have the following details:\n- Title\n- Abstract\n- Key Takeaways\nReview the submissions for the following:\n- Clarity of thought and crisp writeup\n- Showcasing value to the audience who will attend the talk\n- Easy to understand what this talk is about\n- Being specific about the technologies being used and why they are being used\n- Clear takeaways for the audience\n- Clarity on who is the Intended audience\nKeeping these tenets in mind, you will review the submission and provide precise and concise, actionable feedback, as suggestions, that will help improve the submission. You should not write or re-write the submission or any parts of it. Provide clear and concise feedback and suggestions that the author can work on to improve on their writeup. \nIf there are aspects that are good, mention them so that it can be retain and left unchanged.\nIf there isn't any significant improvement needed, you can provide a recommendation of 'Approved'. If there are signficant improvements to be made, you can provide a recommendation of 'Revise' along with the necessary suggestions.",
+            "initial_prompt": "Review this submission and give your feedback if any: \n--\n Submission:\n {data}",
+            "iterative_prompt": "Review this improved submission and and give your feedback if there are any significant changes to be made: \n--\n Submission:\n {data}"
         }
     },
     "models": {
-        "writer": "vertex-gemini-15-flash-json",
-        "reviewer": "vertex-gemini-15-flash-json"
+        "writer": "gemini-15-flash-plain",
+        "reviewer": "gemini-15-flash-json"
     },
     "iterations": 3
 }
