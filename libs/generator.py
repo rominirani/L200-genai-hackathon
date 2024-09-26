@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 _VAR_PROMPT = "{data}"
-
+_MAX_ITERATIONS = 3
 
 class Generator:
     """Executes the primary logic of iteratively generating completions."""
@@ -23,13 +23,41 @@ class Generator:
             }
 
     def __init__(self, 
-                 domain: str):
+                 domain: str,
+                 writer_model: str = None, 
+                 reviewer_model: str = None):
 
         logger.info(f"Initializing generator for domain: {domain}")
         self.config_reader = ConfigReader()
         self.domain_config = self.config_reader.get_config_for_domain(domain)
+        # Update writer and reader models
+        self._update_models(writer_model, reviewer_model)
         logger.debug(f"Domain config: {self.domain_config}")
         self._get_models()
+
+
+    def _update_models(self, writer_model: str, reviewer_model: str):
+        """Update the writer and reader models in the domain config
+        
+        Rules:
+            - models coming in via parameters takes precedence and overwrites any others
+            - models defined on domain config is retained if nothing in params
+            - finally, 'gemini-15-flash' is used as a fallback
+            Note: all models should be checked against model config and should be valid
+        """
+        valid_models = list(self.config_reader.get_models().keys())
+        logger.debug(f"Valid models: {valid_models}")
+
+        if writer_model and writer_model in valid_models:
+            self.domain_config['writer']['model_id'] = writer_model
+        if reviewer_model and reviewer_model in valid_models:
+            self.domain_config['reviewer']['model_id'] = reviewer_model
+        if not self.domain_config['writer']['model_id'] \
+            and self.domain_config['writer']['model_id'] not in valid_models:
+            self.domain_config['writer']['model_id'] = 'gemini-15-flash'
+        if not self.domain_config['reviewer']['model_id'] \
+            and self.domain_config['reviewer']['model_id'] not in valid_models:
+            self.domain_config['reviewer']['model_id'] = 'gemini-15-flash'
 
 
     def _get_models(self):
@@ -124,26 +152,26 @@ class Generator:
                                   num_iterations: int = None):
         """Runs the model iteratively and returns the final output."""
 
+        response = {'output': initial_output}
+        logger.debug(f"Initial response: {response}")
+
         logger.info('Review initial output')
-        logger.debug(f"Initial output: {initial_output}")
         feedback_prompt = \
             self.domain_config['reviewer']['prompts']['initial_prompt'].replace(
-                _VAR_PROMPT, initial_output)
+                _VAR_PROMPT, response['output'])
         feedback = self.reviewer.generate_completion(feedback_prompt)
+        self._accumulate_metadata(feedback['usage_metadata'])        
         logger.info(f"Recommendation: {json.loads(feedback['output'])['recommendation']}")
         logger.debug(f"Feedback: {feedback}")
 
-        max_iterations = num_iterations or self.domain_config['iterations'] or 3
-        self._accumulate_metadata(feedback['usage_metadata'])
-
         iteration = 0
-        response = {}
-        logger.info(f'Iterating {max_iterations} times')
+        max_iterations = num_iterations or self.domain_config['iterations'] or _MAX_ITERATIONS
+        logger.info(f'Iterate upto {max_iterations} times')
         while json.loads(feedback['output'])['recommendation'].lower() == 'revise' \
             and iteration < max_iterations:
 
             iteration += 1
-            logger.info(f"Running iteration {iteration + 1}")
+            logger.info(f"Running iteration {iteration}")
 
             # iterate output based on feedback
             logger.info('Revise generated output')

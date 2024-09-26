@@ -45,14 +45,37 @@ def test_first_iteration():
 
 
 def test_full_iteration():
-    cfp = Generator('cfp')
-    response = cfp.generate_initial_output(
-        prompt="""This talk will be about Firestore. It is a document store.
+    prompt="""This talk will be about Firestore. It is a document store.
         It also has vector store support. It has a healthy free tier.
         It has many SDKs and supports GenKit for AI apps.
-        """)
+        """
+    
+    cfp = Generator('cfp')
+    response = cfp.generate_initial_output(prompt)
+    print(response['output'])
+    print(response['usage_metadata'])
+    
     response = cfp.generate_iterative_output(response['output'])
-    print(response)
+    print(response['output'])
+    print(response['usage_metadata'])
+    print(f"Number of iterations: {response['iterations']}")
+
+
+def test_full_iteration_with_models():
+    prompt="""This talk will be about Firestore. It is a document store.
+        It also has vector store support. It has a healthy free tier.
+        It has many SDKs and supports GenKit for AI apps.
+        """
+    
+    cfp = Generator('cfp', 'gemini-15-pro', 'gemini-15-pro')
+    response = cfp.generate_initial_output(prompt)
+    print(response['output'])
+    print(response['usage_metadata'])
+    
+    response = cfp.generate_iterative_output(response['output'])
+    print(response['output'])
+    print(response['usage_metadata'])
+    print(f"Number of iterations: {response['iterations']}")
 
 
 # main function
@@ -61,4 +84,5 @@ if __name__ == "__main__":
     # test_model()
     # test_dynamic_model()
     # test_first_iteration()
-    test_full_iteration()
+    # test_full_iteration()
+    test_full_iteration_with_models()
