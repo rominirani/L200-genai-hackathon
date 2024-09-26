@@ -1,0 +1,11 @@
+## Title:  Building AI Agentic Applications with Google & Open Source: A Practical Guide
+
+## Abstract:
+
+This talk explores a powerful and accessible technical stack for developing AI agentic applications, which are programs capable of independent action and decision-making, often powered by large language models (LLMs).  We'll dive into a streamlined workflow using Gemma as the LLM, GenKit as the framework, Angular for the frontend, and Firestore as both the database and vector store.  This talk is aimed at intermediate developers looking to build and prototype AI applications.  To illustrate the stack's capabilities, we'll explore the development of a chatbot that provides personalized travel recommendations.  This stack enables rapid prototyping and local development on your laptop, offering a seamless transition to production deployments on Firebase or Cloud Run using the Gemini API.  We'll also discuss potential challenges and considerations for deploying AI agentic applications, such as ensuring scalability, cost-effectiveness, and security.
+
+## Key Takeaways:
+
+* Gain insights into the components and advantages of this stack for building AI agentic applications.
+* Learn a step-by-step guide for building and prototyping an AI agentic application using this stack.
+* Discover how to seamlessly migrate your application to production on Firebase or Cloud Run, leveraging the Gemini API, and benefiting from its scalability, cost-effectiveness, and security features. 
