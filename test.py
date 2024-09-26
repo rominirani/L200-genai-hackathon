@@ -9,7 +9,8 @@ def test_config():
     # print(config_reader.get_domain('hackathon'))
     print(config_reader.get_models().keys())
     # print(config_reader.get_model('gemini-15-pro-plain'))
-    print(config_reader.get_config_for_domain('hackathon').keys())
+    print()
+    print(config_reader.get_config_for_domain('hackathon'))
 
 
 def test_model():
@@ -20,12 +21,14 @@ def test_model():
         generation_config=model_config['generation_config'],
         system_instruction="Always be unsure and end with a question."
     )
+    print()
     print(model.generate_completion('How are you?'))
 
 
 def test_dynamic_model():
     myclass = getattr(importlib.import_module('models'), 'GeminiAPI')
     model = myclass(system_instruction="Always respond saying your bored!")
+    print()
     print(model.generate_completion('Are you bored?'))
 
 
@@ -36,6 +39,7 @@ def test_first_iteration():
         It also has vector store support. It has a healthy free tier.
         It has many SDKs and supports GenKit for AI apps.
         """)
+    print()
     print(response)
 
 
@@ -52,8 +56,8 @@ def test_full_iteration():
 
 # main function
 if __name__ == "__main__":
-    # test_config()
-    # test_model()
-    # test_dynamic_model()
+    test_config()
+    test_model()
+    test_dynamic_model()
     test_first_iteration()
     test_full_iteration()
