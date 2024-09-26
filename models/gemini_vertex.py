@@ -1,13 +1,12 @@
 # generates completions from models on Vertex AI
 
-from pyexpat import model
 from models import BaseModel
 import os
 import dotenv
 import logging
 
 import vertexai
-from vertexai.generative_models import GenerativeModel
+from vertexai.generative_models import GenerativeModel, GenerationConfig
 
 dotenv.load_dotenv()
 logger = logging.getLogger(__name__)
@@ -15,9 +14,9 @@ logger = logging.getLogger(__name__)
 class GeminiVertex(BaseModel):
     """Instantiates the Gemini model from Vertex AI"""
 
+    chat_model = {}
+
     def __init__(self, 
-                 project: str,
-                 location: str,
                  model_name: str = "gemini-1.5-flash",
                  generation_config: object = {},
                  system_instruction: str = None):
@@ -25,17 +24,35 @@ class GeminiVertex(BaseModel):
 
         logger.info(f"Initializing model {model_name}")
        
-        vertexai.init(project=project, location=location)
-        self.model = GenerativeModel(
+        vertexai.init(project=os.getenv("PROJECT_ID"), 
+                      location=os.getenv("LOCATION"))
+
+        # Set the JSON Output format for Gemini model
+        response_schema = {
+            "type": "object",
+            "properties": {
+                "suggestions": {
+                    "type": "string"
+                },
+                "recommendation": {
+                    "type": "string"
+                }
+            },
+            "required": ["recommendation"]
+        }
+
+        # Add another attribute to generation config object
+        generation_config['response_schema'] = response_schema
+        generation_config['response_mime_type'] = "application/json"
+
+        model = GenerativeModel(
             model_name=model_name,
-            generation_config=generation_config,
+            generation_config=GenerationConfig(**generation_config),
             system_instruction=system_instruction
         )
 
-        # start chat interface on model
-        self.chat_history_writer = []
-        self.chat_model = self.model.start_chat(
-            history=self.chat_history_writer)
+        self.chat_model = model.start_chat()
+
 
     # override method from BaseModel
     def generate_completion(self, prompt: str) -> object:
@@ -43,10 +60,6 @@ class GeminiVertex(BaseModel):
         logger.info("Generating completion")
         
         response = self.chat_model.send_message(prompt)
-        self.chat_history_writer.extend([
-            {"role": "user", "content": prompt},
-            {"role": "model", "content": response.text}
-        ])
 
         return {
             "output": response.text,

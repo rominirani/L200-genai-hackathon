@@ -50,5 +50,18 @@
             "max_output_tokens": 8192,
             "response_mime_type": "text/plain"
         }
-    }
+    },
+    {
+        "id": "vertex-gemini-15-flash-json",
+        "model_name": "gemini-1.5-flash-002",
+        "model_class": "GeminiVertex",
+        "description": "gemini-1.5-flash on vertex with json response",
+        "generation_config": {
+            "temperature": 1,
+            "top_p": 0.95,
+            "top_k": 40,
+            "max_output_tokens": 8192,
+            "response_mime_type": "application/json"
+        }
+    }    
 ]

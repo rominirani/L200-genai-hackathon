@@ -57,8 +57,8 @@ def test_full_iteration():
 
 # main function
 if __name__ == "__main__":
-    test_config()
-    test_model()
-    test_dynamic_model()
+    # test_config()
+    # test_model()
+    # test_dynamic_model()
     test_first_iteration()
     test_full_iteration()

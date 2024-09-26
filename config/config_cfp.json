@@ -12,8 +12,8 @@
         }
     },
     "models": {
-        "writer": "gemini-15-flash-plain",
-        "reviewer": "gemini-15-flash-json"
+        "writer": "vertex-gemini-15-flash-json",
+        "reviewer": "vertex-gemini-15-flash-json"
     },
     "iterations": 3
 }

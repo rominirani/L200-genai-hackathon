@@ -46,3 +46,19 @@ optional arguments:
                         Which domain to run? 
                         (hackathon or cfp)
 ```
+
+## Other AI Models
+
+### Gemini on Vertex AI
+
+You can also use Gemini models on Google Cloud Vertex AI. 
+In order to set up access to Gemini on Vertex AI, you need to do the following.
+
+1. Enable the necessary APIs [here](https://console.cloud.google.com/flows/enableapi?apiid=aiplatform.googleapis.com,storage.googleapis.com)
+2. Create the following environment variables in the .env file
+   1. `PROJECT=your-project`
+   2. `LOCATION=your-location`
+3. Set up Application Default Credentials so that you local environment can access Vertex AI and Gemini
+   `gcloud auth application-default login`
+
+Now can you select the Vertex AI Gemini models for completion.
