@@ -43,11 +43,11 @@ class ConfigReader:
 
     def _read_config(self):
         """Returns the entire configuration data."""
+        logger.info(f'Reading configuration files...')
         config_data = {}
         for key, file_name in self.config_files.items():
             config_data[key] = self._read_file(file_name)
   
-        logger.debug(f'Configuration data: {config_data}')
         return config_data
     
 

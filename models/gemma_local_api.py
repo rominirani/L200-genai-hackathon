@@ -1,5 +1,6 @@
 # generates completions from the Gemini 1.5 Flash model
 
+from pyexpat import model
 from models import BaseModel
 import logging
 
@@ -17,20 +18,23 @@ class GemmaLocalAPI(BaseModel):
         """Initialize the model with the given config"""
 
         logger.info(f"Initializing model {model_name}")
-       
-        # start chat interface on model
+        self.model = model_name
+        self.format = 'json' \
+            if generation_config['response_mime_type'] == 'application/json' else None
         self.chat_history_writer = []
         self.chat_history_writer.append({"role": "system", "content": system_instruction})
 
     # override method from BaseModel
     def generate_completion(self, prompt: str) -> object:
         """Override by calling actual model"""
-        logger.info("Generating completion")
-
-        self.chat_history_writer.append({"role" : "user", "content" : prompt})
-        response = ollama.chat(model='gemma2:2b',messages=self.chat_history_writer)
-        self.chat_history_writer.append(
-            {"role": "model", "content": response['message']['content']})
+        logger.debug(f"Prompt: {prompt}")
+        self.chat_history_writer.append({"role": "user", "content": prompt})
+        response = ollama.chat(
+            model=self.model, 
+            format=self.format, 
+            messages=self.chat_history_writer)
+        logger.debug(f"Response: {response}")
+        self.chat_history_writer.append({"role": "assistant", "content": response['message']['content']})
 
         return {
             "output": response['message']['content'],

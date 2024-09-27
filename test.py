@@ -67,7 +67,7 @@ def test_full_iteration_with_models():
         It has many SDKs and supports GenKit for AI apps.
         """
     
-    cfp = Generator('cfp', 'gemini-15-pro', 'gemini-15-pro')
+    cfp = Generator('cfp', 'gemma2b-local', 'gemma2b-local')
     response = cfp.generate_initial_output(prompt)
     print(response['output'])
     print(response['usage_metadata'])
