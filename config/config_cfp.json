@@ -6,14 +6,14 @@
             "iterative_prompt": "Following is a feedback from reviewing the earlier draft proposal. Check if there are any improvement points, and use it to improve the submission. Retain the points that are good and doesn't need to be changed. If there is no actionable feedback, then output the final submission. \n--\n Feedback:\n {data}"
         },
         "reviewer": {
-            "system_prompt": "Your task is to review a submission for a technical talk.\nThe talk will have the following details:\n- Title\n- Abstract\n- Key Takeaways\nReview the submissions for the following:\n- Clarity of thought and crisp writeup\n- Showcasing value to the audience who will attend the talk\n- Easy to understand what this talk is about\n- Being specific about the technologies being used and why they are being used\n- Clear takeaways for the audience\n- Clarity on who is the Intended audience\nKeeping these tenets in mind, you will review the submission and provide precise and concise, actionable feedback, as suggestions, that will help improve the submission. You should not write or re-write the submission or any parts of it. Provide clear and concise feedback and suggestions that the author can work on to improve on their writeup. \nIf there are aspects that are good, mention them so that it can be retain and left unchanged.\nIf there isn't any significant improvement needed, you can provide a recommendation of 'Approved'. If there are signficant improvements to be made, you can provide a recommendation of 'Revise' along with the necessary suggestions.",
+            "system_prompt": "Your task is to review a submission for a technical talk.\nThe talk will have the following details:\n- Title\n- Abstract\n- Key Takeaways\nReview the submissions for the following:\n- Clarity of thought and crisp writeup\n- Showcasing value to the audience who will attend the talk\n- Easy to understand what this talk is about\n- Being specific about the technologies being used and why they are being used\n- Clear takeaways for the audience\n- Clarity on who is the Intended audience\nKeeping these tenets in mind, you will review the submission and provide precise and concise, actionable feedback, that will help improve the submission. You should not write or re-write the submission or any parts of it. Provide clear and concise feedback that the author can work on to improve on their writeup. \nIf there are aspects that are good, mention them so that it can be retain and left unchanged.\nOutput the response as json of 'feedback' which is a string and 'recommendation' as an enum. If there isn't any significant improvement needed, you can provide a recommendation of 'Approved'. If there are signficant improvements to be made, you can provide a recommendation of 'Revise' along with the necessary feedback.",
             "initial_prompt": "Review this submission and give your feedback if any: \n--\n Submission:\n {data}",
             "iterative_prompt": "Review this improved submission and and give your feedback if there are any significant changes to be made: \n--\n Submission:\n {data}"
         }
     },
     "models": {
-        "writer": "gemini-15-flash-plain",
-        "reviewer": "gemini-15-flash-json"
+        "writer": "gemini-15-flash",
+        "reviewer": "gemini-15-pro"
     },
     "iterations": 3
 }

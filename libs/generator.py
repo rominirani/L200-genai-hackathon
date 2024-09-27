@@ -71,7 +71,7 @@ class Generator:
         model_config["generation_config"]["response_mime_type"] = "text/plain"
         
         # build the model from the config
-        logger.debug(f"Model config: {model_config}")
+        logger.debug(f"Updated Model config: {model_config}")
         self.writer = self._build_model(
             model_config["model_class"],
             model_config["model_name"],
@@ -88,7 +88,7 @@ class Generator:
         response_schema = {
             "type": "object",
             "properties": {
-                "suggestions": {
+                "feedback": {
                     "type": "string",
                     "description": "Provide detailed suggestions for improvement or changes"
                 },
@@ -98,12 +98,12 @@ class Generator:
                     "description": "Final recommendation: 'Approved' if no significant changes needed, 'Revise' if changes are required"
                 }
             },
-            "required": ["suggestions", "recommendation"]
+            "required": ["feedback", "recommendation"]
         }
         model_config["generation_config"]["response_schema"] = response_schema
 
         # build the model from the config
-        logger.debug(f"Model config: {model_config}")
+        logger.debug(f"Updated Model config: {model_config}")
         self.reviewer = self._build_model(
             model_config["model_class"],
             model_config["model_name"],
@@ -161,8 +161,8 @@ class Generator:
                 _VAR_PROMPT, response['output'])
         feedback = self.reviewer.generate_completion(feedback_prompt)
         self._accumulate_metadata(feedback['usage_metadata'])        
-        logger.info(f"Recommendation: {json.loads(feedback['output'])['recommendation']}")
         logger.debug(f"Feedback: {feedback}")
+        logger.info(f"Recommendation: {json.loads(feedback['output'])['recommendation']}")
 
         iteration = 0
         max_iterations = num_iterations or self.domain_config['iterations'] or _MAX_ITERATIONS
@@ -177,7 +177,7 @@ class Generator:
             logger.info('Revise generated output')
             review_prompt = \
                 self.domain_config['writer']['prompts']['iterative_prompt'].replace(
-                    _VAR_PROMPT, json.loads(feedback['output'])['suggestions'])
+                    _VAR_PROMPT, json.loads(feedback['output'])['feedback'])
             response = self.writer.generate_completion(review_prompt)
             logger.debug(f"Response: {response}")
             self._accumulate_metadata(response['usage_metadata'])
